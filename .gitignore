@@ -130,3 +130,4 @@ dmypy.json
 
 # Manuel's additions
 .idea
+*.json

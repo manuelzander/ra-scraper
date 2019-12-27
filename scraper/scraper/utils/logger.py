@@ -25,7 +25,7 @@ def get_logger(name: str) -> logging.Logger:
     ch = logging.StreamHandler(sys.stdout)
     ch.setLevel(severity[CONSOLE_LOG_SEVERITY])
     formatter = logging.Formatter(
-        "%(asctime)s - %(name)s - %(levelname)s - %(message)s"
+        "%(asctime)s [%(name)s] %(levelname)s: %(message)s", "%Y-%m-%d %H:%M:%S"
     )
     ch.setFormatter(formatter)
 
