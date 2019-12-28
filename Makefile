@@ -10,6 +10,7 @@ build: clean
 	cd $(module) && scrapy crawl ra_artist_spider
 	@echo "Printing results file"
 	cat $(module)/$(object)
+	@echo "Data written to $(PWD)/$(module)"
 
 clean:
 	@echo "Removing results file"
