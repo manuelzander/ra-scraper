@@ -38,22 +38,18 @@ export PYTHONPATH=.
 
 Within the `scraper/artists.txt` file specify all artists you want to scrape events for (one per line).
 
+The artist name should be in a format such that a valid url, i.e. https://www.residentadvisor.net/dj/{artist} exists.
 
 ## Running the spider
 
 This project uses the [scrapy](https://scrapy.org/) Python library (tutorial [here](https://docs.scrapy.org/en/latest/intro/tutorial.html)).
 
-
 You can find the spider with the name `ra_artist_spider` in the file `scraper/scraper/spiders`.
 
-From within the `scraper` folder run:
+To produce a file ```results.json``` containing the results in JSON format simply run:
 
 ```
-scrapy crawl ra_artist_spider
+make
 ```
 
-To produce a file ```results.json``` with the results run:
-
-```
-scrapy crawl ra_artist_spider -o results.json
-```
+Every run of `make` will produce an updated ```results.json``` file (not appending).

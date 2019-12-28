@@ -14,7 +14,6 @@ BOT_NAME = "scraper"
 SPIDER_MODULES = ["scraper.spiders"]
 NEWSPIDER_MODULE = "scraper.spiders"
 
-
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
 # USER_AGENT = 'scraper (+http://www.yourdomain.com)'
 
@@ -64,9 +63,7 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-# ITEM_PIPELINES = {
-#    'scraper.pipelines.ScraperPipeline': 300,
-# }
+ITEM_PIPELINES = {"scraper.pipelines.DuplicatesPipeline": 300}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -88,3 +85,8 @@ ROBOTSTXT_OBEY = True
 # HTTPCACHE_DIR = 'httpcache'
 # HTTPCACHE_IGNORE_HTTP_CODES = []
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
+
+FEED_EXPORTERS = {"jsonlines": "scrapy.exporters.JsonLinesItemExporter"}
+FEED_FORMAT = "jsonlines"
+FEED_URI = "results.json"
+FEED_EXPORT_ENCODING = 'utf-8'
