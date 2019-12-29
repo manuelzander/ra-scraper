@@ -70,6 +70,14 @@ An example `results.json` for only one artist ([Ben Böhmer](https://www.residen
 {"artist": "benbohmer", "date": "Fri, 01 May 2020 / ", "title": "Ben Böhmer Live - Breathing Tour", "venue": "Roxy", "city": "Prague"}
 ```
 
+In order to create a CSV file, set the following values in `scraper/scraper/settings.py`:
+```
+FEED_EXPORTERS = {"csv": "scrapy.exporters.CsvItemExporter"}
+FEED_FORMAT = "csv"
+FEED_URI = "results.csv"
+```
+
+
 ## Authors
 
 * Manuel Zander
