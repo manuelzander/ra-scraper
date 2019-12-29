@@ -91,5 +91,5 @@ ITEM_PIPELINES = {
 
 FEED_EXPORTERS = {"jsonlines": "scrapy.exporters.JsonLinesItemExporter"}
 FEED_FORMAT = "jsonlines"
-FEED_URI = "results.json"
+FEED_URI = "results.jsonl"
 FEED_EXPORT_ENCODING = "utf-8"

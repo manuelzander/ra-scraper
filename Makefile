@@ -1,7 +1,7 @@
 .PHONY: clean
 
 module = scraper
-object = results.json
+object = results.jsonl
 
 build: clean
 	#@echo "Check bot"

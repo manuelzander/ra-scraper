@@ -40,7 +40,7 @@ class RaArtistSpider(scrapy.Spider):
 
             date = event.css(DATE_SELECTOR).extract_first()
             title = event.css(TITLE_SELECTOR).extract_first()
-            link = "https://www.residentadvisor.net" + event.css(LINK_SELECTOR).extract_first()
+            link = response.urljoin(event.css(LINK_SELECTOR).extract_first())
             venue_and_city = event.css(VENUE_CITY_SELECTOR).getall()
 
             # TODO: Improve parsing of venue and city

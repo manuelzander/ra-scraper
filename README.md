@@ -46,7 +46,7 @@ This project uses the [scrapy](https://scrapy.org/) Python library (tutorial [he
 
 You can find the spider with the name `ra_artist_spider` in the file `scraper/scraper/spiders/ra_artist_spider.py`.
 
-To produce a file `results.json` in the `scraper` folder containing the resulting data in JSON format run:
+To produce a file `results.jsonl` in the `scraper` folder containing the resulting data in JSON Lines format run:
 
 ```
 make
@@ -54,9 +54,9 @@ make
 
 ## Example output
 
-Every run of `make` produces an updated (not appended) `results.json` file with data for all specified artists.
+Every run of `make` produces an updated (not appended) `results.jsonl` file with data for all specified artists.
 
-An example `results.json` for only one artist ([Ben Böhmer](https://www.residentadvisor.net/dj/benbohmer)) looks like this:
+An example `results.jsonl` for only one artist ([Ben Böhmer](https://www.residentadvisor.net/dj/benbohmer)) looks like this:
 
 ```
 {"artist": "benbohmer", "date": "Tue, 31 Dec 2019", "title": "Every End Is A New Beginning - NYE", "link": "https://www.residentadvisor.net/events/1354509", "venue": "Watergate", "city": "Berlin"}
