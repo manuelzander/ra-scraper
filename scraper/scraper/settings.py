@@ -63,7 +63,10 @@ ROBOTSTXT_OBEY = True
 
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
-ITEM_PIPELINES = {"scraper.pipelines.DuplicatesPipeline": 300}
+ITEM_PIPELINES = {
+    "scraper.pipelines.DuplicatesPipeline": 300,
+    "scraper.pipelines.DatesPipeline": 400,
+}
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
@@ -89,4 +92,4 @@ ITEM_PIPELINES = {"scraper.pipelines.DuplicatesPipeline": 300}
 FEED_EXPORTERS = {"jsonlines": "scrapy.exporters.JsonLinesItemExporter"}
 FEED_FORMAT = "jsonlines"
 FEED_URI = "results.json"
-FEED_EXPORT_ENCODING = 'utf-8'
+FEED_EXPORT_ENCODING = "utf-8"
