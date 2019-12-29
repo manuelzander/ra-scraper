@@ -35,10 +35,12 @@ class RaArtistSpider(scrapy.Spider):
 
             DATE_SELECTOR = ".flag+ h1 ::text"
             TITLE_SELECTOR = ".title .title ::text"
+            LINK_SELECTOR = ".title a::attr(href)"
             VENUE_CITY_SELECTOR = "a+ span ::text"
 
             date = event.css(DATE_SELECTOR).extract_first()
             title = event.css(TITLE_SELECTOR).extract_first()
+            link = "https://www.residentadvisor.net" + event.css(LINK_SELECTOR).extract_first()
             venue_and_city = event.css(VENUE_CITY_SELECTOR).getall()
 
             # TODO: Improve parsing of venue and city
@@ -60,6 +62,7 @@ class RaArtistSpider(scrapy.Spider):
                 artist=response.meta["artist"],
                 date=date,
                 title=title,
+                link=link,
                 venue=venue,
                 city=city,
             )

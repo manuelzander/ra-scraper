@@ -59,15 +59,15 @@ Every run of `make` produces an updated (not appended) `results.json` file with 
 An example `results.json` for only one artist ([Ben Böhmer](https://www.residentadvisor.net/dj/benbohmer)) looks like this:
 
 ```
-{"artist": "benbohmer", "date": "Tue, 31 Dec 2019", "title": "Every End Is A New Beginning - NYE", "venue": "Watergate", "city": "Berlin"}
-{"artist": "benbohmer", "date": "Fri, 21 Feb 2020", "title": "Afterglow: Ben Böhmer (Live)", "venue": "Soundcheck", "city": "Washington DC"}
-{"artist": "benbohmer", "date": "Sat, 22 Feb 2020", "title": "Ben Böhmer at Quantum Brooklyn (Formerly Known as Analog Brooklyn) - Made Event & Gray Area", "venue": "Quantum", "city": "New York"}
-{"artist": "benbohmer", "date": "Fri, 28 Feb 2020", "title": "Ben Böhmer [live]", "venue": "Coda", "city": "Toronto"}
-{"artist": "benbohmer", "date": "Sat, 29 Feb 2020", "title": "Ben Böhmer (Live) au Théâtre Fairmount", "venue": "Théâtre Fairmount", "city": "Quebec"}
-{"artist": "benbohmer", "date": "Sat, 07 Mar 2020", "title": "Crssd Festival Spring '20 presented by FNGRS CRSSD", "venue": "Waterfront Park in San Diego", "city": "San Diego"}
-{"artist": "benbohmer", "date": "Fri, 03 Apr 2020", "title": "Ben Böhmer (Live)", "venue": "Audio SF", "city": "San Francisco"}
-{"artist": "benbohmer", "date": "Fri, 17 Apr 2020", "title": "Ben Böhmer Live", "venue": "Orange Yard", "city": "London"}
-{"artist": "benbohmer", "date": "Fri, 01 May 2020", "title": "Ben Böhmer Live - Breathing Tour", "venue": "Roxy", "city": "Prague"}
+{"artist": "benbohmer", "date": "Tue, 31 Dec 2019", "title": "Every End Is A New Beginning - NYE", "link": "https://www.residentadvisor.net/events/1354509", "venue": "Watergate", "city": "Berlin"}
+{"artist": "benbohmer", "date": "Fri, 21 Feb 2020", "title": "Afterglow: Ben Böhmer (Live)", "link": "https://www.residentadvisor.net/events/1333629", "venue": "Soundcheck", "city": "Washington DC"}
+{"artist": "benbohmer", "date": "Sat, 22 Feb 2020", "title": "Ben Böhmer at Quantum Brooklyn (Formerly Known as Analog Brooklyn) - Made Event & Gray Area", "link": "https://www.residentadvisor.net/events/1334023", "venue": "Quantum", "city": "New York"}
+{"artist": "benbohmer", "date": "Fri, 28 Feb 2020", "title": "Ben Böhmer [live]", "link": "https://www.residentadvisor.net/events/1333482", "venue": "Coda", "city": "Toronto"}
+{"artist": "benbohmer", "date": "Sat, 29 Feb 2020", "title": "Ben Böhmer (Live) au Théâtre Fairmount", "link": "https://www.residentadvisor.net/events/1350509", "venue": "Théâtre Fairmount", "city": "Quebec"}
+{"artist": "benbohmer", "date": "Sat, 07 Mar 2020", "title": "Crssd Festival Spring '20 presented by FNGRS CRSSD", "link": "https://www.residentadvisor.net/events/1356911", "venue": "Waterfront Park in San Diego", "city": "San Diego"}
+{"artist": "benbohmer", "date": "Fri, 03 Apr 2020", "title": "Ben Böhmer (Live)", "link": "https://www.residentadvisor.net/events/1345882", "venue": "Audio SF", "city": "San Francisco"}
+{"artist": "benbohmer", "date": "Fri, 17 Apr 2020", "title": "Ben Böhmer Live", "link": "https://www.residentadvisor.net/events/1356219", "venue": "Orange Yard", "city": "London"}
+{"artist": "benbohmer", "date": "Fri, 01 May 2020", "title": "Ben Böhmer Live - Breathing Tour", "link": "https://www.residentadvisor.net/events/1365670", "venue": "Roxy", "city": "Prague"}
 ```
 
 In order to create a CSV file, set the following values in `scraper/scraper/settings.py`:
