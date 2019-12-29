@@ -2,9 +2,12 @@ import logging
 import os
 
 import scrapy
+
+from scrapy.utils.project import get_project_settings
+
+from scraper.items import EventItem
 from scraper.utils.file_io import get_artists
 from scraper.utils.logger import get_logger
-from scraper.items import ScraperItem
 
 log = get_logger(__name__)
 
@@ -27,7 +30,7 @@ class RaArtistSpider(scrapy.Spider):
         # """
         # TODO: Get Spiders Contracts working
 
-        log.info("Parse function called on %s", response.url)
+        log.info("Parse artist event data; called on %s", response.url)
 
         EVENT_SELECTOR = "#items .bbox"
 
@@ -58,7 +61,8 @@ class RaArtistSpider(scrapy.Spider):
             # TODO: Follow links to events to automatically get full line-up and prices, if available
 
             log.info("Successfully parsed %s", response.url)
-            yield ScraperItem(
+            yield EventItem(
+                id=link.split("/")[-1],
                 artist=response.meta["artist"],
                 date=date,
                 title=title,
@@ -67,7 +71,37 @@ class RaArtistSpider(scrapy.Spider):
                 city=city,
             )
 
+            # TODO: Consider use of scrapy-rotating-proxies and scrapy-useragents
+            if get_project_settings().get("RECURSIVE"):
+                if link is not None:
+                    yield response.follow(
+                        link, callback=self.parse_other_lineup_artists
+                    )
+
+    def parse_other_lineup_artists(self, response):
+
+        log.info(
+            "Parse other artists in lineup of found event; called on %s", response.url
+        )
+
+        links = []
+        artists = []
+
+        for size in ["small", "medium", "large"]:
+            if not links and not artists:
+                links = response.css(f"#event-item .{size} a ::attr(href)").getall()
+                artists = response.css(f"#event-item .{size} a ::text").getall()
+
+        log.info("Successfully parsed %s", response.url)
+
+        if (links and artists) and (len(links) == len(artists)):
+            for link, artist in zip(links, artists):
+                yield response.follow(
+                    link, callback=self.parse, meta={"artist": artist}
+                )
+
     def start_requests(self):
+
         artists = get_artists("artists.txt")
         for artist in artists:
             url = f"https://www.residentadvisor.net/dj/{artist}"

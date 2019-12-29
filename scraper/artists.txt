@@ -5,3 +5,5 @@ kolsch
 benbohmer
 superflu
 christianloffler
+jorisvoorn
+palmstrax
