@@ -1,9 +1,2 @@
-solomun
-bicep
-fourtet
-kolsch
-benbohmer
-superflu
-christianloffler
-jorisvoorn
-palmstrax
+Solomun
+Bicep

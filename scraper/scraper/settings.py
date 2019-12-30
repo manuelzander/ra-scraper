@@ -15,9 +15,9 @@ ROBOTSTXT_OBEY = True
 # Configure a delay for requests for the same website (default: 0)
 # See https://docs.scrapy.org/en/latest/topics/settings.html#download-delay
 # See also autothrottle settings and docs
-DOWNLOAD_DELAY = 1
+DOWNLOAD_DELAY = 0.5
 # The download delay setting will honor only one of:
-CONCURRENT_REQUESTS_PER_DOMAIN = 16
+CONCURRENT_REQUESTS_PER_DOMAIN = 32
 # CONCURRENT_REQUESTS_PER_IP = 16
 
 # Disable cookies (enabled by default)
@@ -53,15 +53,17 @@ DOWNLOADER_MIDDLEWARES = {
 # Configure item pipelines
 # See https://docs.scrapy.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    "scraper.pipelines.DuplicatesPipeline": 300,
+    "scraper.pipelines.DuplicatesPipeline": 200,
+    # "scraper.pipelines.CustomDuplicatesPipeline": 300,
     "scraper.pipelines.DatesPipeline": 400,
+    "scraper.pipelines.MyJsonLinesItemExporter": 500,
 }
 
 # Enable and configure the AutoThrottle extension (disabled by default)
 # See https://docs.scrapy.org/en/latest/topics/autothrottle.html
 AUTOTHROTTLE_ENABLED = True
 # The initial download delay
-AUTOTHROTTLE_START_DELAY = 2
+AUTOTHROTTLE_START_DELAY = 0.5
 # The maximum download delay to be set in case of high latencies
 AUTOTHROTTLE_MAX_DELAY = 60
 # The average number of requests Scrapy should be sending in parallel to
@@ -79,9 +81,9 @@ HTTPCACHE_ENABLED = True
 # HTTPCACHE_STORAGE = 'scrapy.extensions.httpcache.FilesystemCacheStorage'
 
 # Custom stuff
-FEED_EXPORTERS = {"jsonlines": "scrapy.exporters.JsonLinesItemExporter"}
-FEED_FORMAT = "jsonlines"
-FEED_URI = "results.jsonl"
+# FEED_EXPORTERS = {"jsonlines": "scrapy.exporters.JsonLinesItemExporter"}
+# FEED_FORMAT = "jsonlines"
+# FEED_URI = "results.jsonl"
 FEED_EXPORT_ENCODING = "utf-8"
 
 RETRY_HTTP_CODES = [429]
@@ -89,3 +91,4 @@ RETRY_HTTP_CODES = [429]
 RECURSIVE = False
 
 CLOSESPIDER_PAGECOUNT = 20
+CLOSESPIDER_ITEMCOUNT = 100

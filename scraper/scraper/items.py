@@ -11,3 +11,12 @@ class EventItem(scrapy.Item):
     city = scrapy.Field()
 
 
+class EventLineupItem(scrapy.Item):
+    id = scrapy.Field()
+    lineup = scrapy.Field()
+
+
+class EventPriceItem(scrapy.Item):
+    id = scrapy.Field()
+    closed_prices = scrapy.Field()
+    onsale_prices = scrapy.Field()

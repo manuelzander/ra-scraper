@@ -5,7 +5,7 @@ import scrapy
 
 from scrapy.utils.project import get_project_settings
 
-from scraper.items import EventItem
+from scraper.items import EventItem, EventLineupItem, EventPriceItem
 from scraper.utils.file_io import get_artists
 from scraper.utils.logger import get_logger
 
@@ -44,6 +44,7 @@ class RaArtistSpider(scrapy.Spider):
             date = event.css(DATE_SELECTOR).extract_first()
             title = event.css(TITLE_SELECTOR).extract_first()
             link = response.urljoin(event.css(LINK_SELECTOR).extract_first())
+            id = link.split("/")[-1]
             venue_and_city = event.css(VENUE_CITY_SELECTOR).getall()
 
             # TODO: Improve parsing of venue and city
@@ -58,11 +59,8 @@ class RaArtistSpider(scrapy.Spider):
                 log.error("Unexpected ERROR: %s", e)
                 raise
 
-            # TODO: Follow links to events to automatically get full line-up and prices, if available
-
-            log.info("Successfully parsed %s", response.url)
             yield EventItem(
-                id=link.split("/")[-1],
+                id=id,
                 artist=response.meta["artist"],
                 date=date,
                 title=title,
@@ -71,37 +69,57 @@ class RaArtistSpider(scrapy.Spider):
                 city=city,
             )
 
-            # TODO: Consider use of scrapy-rotating-proxies and scrapy-useragents
-            if get_project_settings().get("RECURSIVE"):
-                if link is not None:
-                    yield response.follow(
-                        link, callback=self.parse_other_lineup_artists
-                    )
+            if link is not None:
+                yield response.follow(
+                    link, callback=self.parse_other_lineup_artists, meta={"id": id}
+                )
 
     def parse_other_lineup_artists(self, response):
 
-        log.info(
-            "Parse other artists in lineup of found event; called on %s", response.url
-        )
+        log.info("Parse further artist event data; called on %s", response.url)
 
         links = []
         artists = []
 
         for size in ["small", "medium", "large"]:
             if not links and not artists:
+                # Note: Currently only LINKED artists included in lineup
                 links = response.css(f"#event-item .{size} a ::attr(href)").getall()
                 artists = response.css(f"#event-item .{size} a ::text").getall()
 
-        log.info("Successfully parsed %s", response.url)
+        if links and artists:
+            yield EventLineupItem(
+                id=response.meta["id"], lineup=artists,
+            )
 
-        if (links and artists) and (len(links) == len(artists)):
-            for link, artist in zip(links, artists):
-                yield response.follow(
-                    link, callback=self.parse, meta={"artist": artist}
-                )
+        closed_prices = response.css("#tickets ul li.closed p ::text").getall()
+        onsale_prices = response.css("#tickets ul li.onsale.but p ::text").getall()
+
+        if closed_prices or onsale_prices:
+            closed_prices_paired = [
+                (closed_prices[i], closed_prices[i + 1])
+                for i in range(0, len(closed_prices), 2)
+            ]
+            onsale_prices_paired = [
+                (onsale_prices[i], onsale_prices[i + 1])
+                for i in range(0, len(onsale_prices), 2)
+            ]
+
+            yield EventPriceItem(
+                id=response.meta["id"],
+                closed_prices=closed_prices_paired,
+                onsale_prices=onsale_prices_paired,
+            )
+
+        # TODO: Consider use of scrapy-rotating-proxies and scrapy-useragents due to recursive calls
+        if get_project_settings().get("RECURSIVE"):
+            if (links and artists) and (len(links) == len(artists)):
+                for link, artist in zip(links, artists):
+                    yield response.follow(
+                        link, callback=self.parse, meta={"artist": artist}
+                    )
 
     def start_requests(self):
-
         artists = get_artists("artists.txt")
         for artist in artists:
             url = f"https://www.residentadvisor.net/dj/{artist}"

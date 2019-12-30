@@ -46,37 +46,72 @@ This project uses the [scrapy](https://scrapy.org/) Python library (tutorial [he
 
 You can find the spider with the name `ra_artist_spider` in the file `scraper/scraper/spiders/ra_artist_spider.py`.
 
-To produce a file `results.jsonl` in the `scraper` folder containing the resulting data in JSON Lines format run:
+To start the spider and save results locally please run:
 
 ```
 make
 ```
 
+If you want to recursively scrape events of artists mentioned in the lineup section on the event pages scraped for the initially given artists, set the following value in `scraper/scraper/settings.py`:
+
+```
+RECURSIVE = True
+```
+
+This setting can result in a very large number of requests, which can be controlled by `CLOSESPIDER_ITEMCOUNT` or `CLOSESPIDER_PAGECOUNT`.
+
 ## Example output
 
-Every run of `make` produces an updated (not appended) `results.jsonl` file with data for all specified artists.
+Every run of `make` produces three JSON Line files (data models in `scraper/scraper/items.py`).
+The first one contains general event information for the given artists, the second and third ones contain the lineup and price information for these events, if available.
 
-An example `results.jsonl` for only one artist ([Ben Böhmer](https://www.residentadvisor.net/dj/benbohmer)) looks like this:
+For example (one artist only, no recursive scraping):
+
+1. `EventItem.jsonl` (four events on artist page [Solomun](https://www.residentadvisor.net/dj/solomun))
 
 ```
-{"artist": "benbohmer", "date": "Tue, 31 Dec 2019", "title": "Every End Is A New Beginning - NYE", "link": "https://www.residentadvisor.net/events/1354509", "venue": "Watergate", "city": "Berlin"}
-{"artist": "benbohmer", "date": "Fri, 21 Feb 2020", "title": "Afterglow: Ben Böhmer (Live)", "link": "https://www.residentadvisor.net/events/1333629", "venue": "Soundcheck", "city": "Washington DC"}
-{"artist": "benbohmer", "date": "Sat, 22 Feb 2020", "title": "Ben Böhmer at Quantum Brooklyn (Formerly Known as Analog Brooklyn) - Made Event & Gray Area", "link": "https://www.residentadvisor.net/events/1334023", "venue": "Quantum", "city": "New York"}
-{"artist": "benbohmer", "date": "Fri, 28 Feb 2020", "title": "Ben Böhmer [live]", "link": "https://www.residentadvisor.net/events/1333482", "venue": "Coda", "city": "Toronto"}
-{"artist": "benbohmer", "date": "Sat, 29 Feb 2020", "title": "Ben Böhmer (Live) au Théâtre Fairmount", "link": "https://www.residentadvisor.net/events/1350509", "venue": "Théâtre Fairmount", "city": "Quebec"}
-{"artist": "benbohmer", "date": "Sat, 07 Mar 2020", "title": "Crssd Festival Spring '20 presented by FNGRS CRSSD", "link": "https://www.residentadvisor.net/events/1356911", "venue": "Waterfront Park in San Diego", "city": "San Diego"}
-{"artist": "benbohmer", "date": "Fri, 03 Apr 2020", "title": "Ben Böhmer (Live)", "link": "https://www.residentadvisor.net/events/1345882", "venue": "Audio SF", "city": "San Francisco"}
-{"artist": "benbohmer", "date": "Fri, 17 Apr 2020", "title": "Ben Böhmer Live", "link": "https://www.residentadvisor.net/events/1356219", "venue": "Orange Yard", "city": "London"}
-{"artist": "benbohmer", "date": "Fri, 01 May 2020", "title": "Ben Böhmer Live - Breathing Tour", "link": "https://www.residentadvisor.net/events/1365670", "venue": "Roxy", "city": "Prague"}
+{"id": "1319532", "artist": "Solomun", "date": "Tue, 31 Dec 2019", "title": "NYE with Solomun & Jamie Jones by Link Miami Rebels", "link": "https://www.residentadvisor.net/events/1319532", "venue": "Space", "city": "Miami"}
+{"id": "1363163", "artist": "Solomun", "date": "Sat, 04 Jan 2020", "title": "Solomun 1 Maceo Plex Tulum", "link": "https://www.residentadvisor.net/events/1363163", "venue": "Templo Xunanha Tulum", "city": "South"}
+{"id": "1363420", "artist": "Solomun", "date": "Sat, 25 Apr 2020", "title": "Solomun Paris 2020", "link": "https://www.residentadvisor.net/events/1363420", "venue": "La Seine Musicale / Seguin", "city": "Paris"}
+{"id": "1352870", "artist": "Solomun", "date": "Sat, 20 Jun 2020", "title": "Diynamic - Off Week Festival", "link": "https://www.residentadvisor.net/events/1352870", "venue": "Parc Del Forum", "city": "Barcelona"}
 ```
 
-In order to create a CSV file, set the following values in `scraper/scraper/settings.py`:
+2. `EventLineupItem.jsonl` (four events with lineup section available)
+
+```
+{"id": "1319532", "lineup": ["Solomun", "Jamie Jones", "Danyelino", "Thunderpony"]}
+{"id": "1363163", "lineup": ["Solomun", "Maceo Plex"]}
+{"id": "1363420", "lineup": ["Solomun"]}
+{"id": "1352870", "lineup": ["Solomun"]}
+```
+
+3. `EventPriceItem.jsonl` (three events with price section available, both sold-out and on-sale event prices)
+
+```
+{"id": "1319532", "closed_prices": [["$20.00", "1st release (entry before 12AM)"], ["$50.00", "2nd release (entry before 12AM)"], ["$80.00", "3rd release (entry before 12AM)"], ["$150.00", "4th release (entry before 12AM)"], ["$80.00", "1st release (entry before 3 AM)"], ["$100.00", "2nd release (entry before 3 AM)"], ["$120.00", "3rd release (entry before 3 AM)"], ["$100.00", "1st release (entry ANYTIME)"], ["$120.00", "2nd release (entry ANYTIME)"], ["$150.00", "3rd release (entry ANYTIME)"], ["$250.00", "4th release (entry ANYTIME)"], ["$80.00", "1st release (entry AFTER 10 AM)"], ["$100.00", "2nd release (entry AFTER 10 AM)"], ["$120.00", "3rd release (entry AFTER 10 AM)"], ["$70.00", "1st release (entry AFTER 12 PM)"], ["$60.00", "1st release (entry AFTER 2 PM)"], ["$80.00", "2nd release (entry AFTER 2 PM)"]], "onsale_prices": [["$100.00 + $12.50", "2nd release (entry AFTER 12 PM)"]]}
+{"id": "1363420", "closed_prices": [], "onsale_prices": [["35,00 € + 4,40 €", "1st release"], ["100,00 € + 12,50 €", "Backstage - VIP"]]}
+{"id": "1352870", "closed_prices": [["19,50 €", "Early bird "], ["29,50 €", "1st release"]], "onsale_prices": [["39,50 € + 4,95 €", "2nd release"], ["150,00 € + 18,75 €", "Backstage experience"], ["49,00 € + 6,10 €", "FRIDAY ALL PARK TICKET (Afterlife+Arpiar+Solid Grooves)"], ["49,00 € + 6,10 €", "SATURDAY ALL PARK TICKET (Diynamic+FRRC+Secretsundaze)"], ["99,00 € + 12,40 €", "WEEKEND ALL PARK TICKET (All Events)"], ["300,00 € + 37,50 €", "Weekend backstage experience "]]}
+```
+
+In order to additionally create a JSONL or CSV file with all results, set the following values in `scraper/scraper/settings.py`:
+
+```
+FEED_EXPORTERS = {"jsonlines": "scrapy.exporters.JsonLinesItemExporter"}
+FEED_FORMAT = "jsonlines"
+FEED_URI = "results.jsonl"
+```
+
 ```
 FEED_EXPORTERS = {"csv": "scrapy.exporters.CsvItemExporter"}
 FEED_FORMAT = "csv"
 FEED_URI = "results.csv"
 ```
 
+## To-do list
+
+- [x] Event lineup and price collection
+- [ ] Database connection
+- [ ] Visualizations and stats (front-end?)
 
 ## Authors
 
