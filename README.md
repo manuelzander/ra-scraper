@@ -110,6 +110,7 @@ FEED_URI = "results.csv"
 ## To-do list
 
 - [x] Event lineup and price collection
+- [x] Email notifications
 - [ ] Database connection
 - [ ] Visualizations and stats (front-end?)
 

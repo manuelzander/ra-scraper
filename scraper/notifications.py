@@ -58,7 +58,7 @@ def main():
     except smtplib.SMTPException as e:
         log.error("SMTP error occurred: " + str(e))
     else:
-        log.info("Sent")
+        log.info("Email sent")
 
 
 if __name__ == "__main__":

@@ -33,9 +33,13 @@ class RaArtistSpider(scrapy.Spider):
         log.info("Parse artist event data; called on %s", response.url)
 
         EVENT_SELECTOR = "#items .bbox"
+        ARTIST_SELECTOR = "#featureHead > div > h1 ::text, #sectionHead > h1 ::text"
+
+        artist = response.css(ARTIST_SELECTOR).extract_first()
 
         for event in response.css(EVENT_SELECTOR):
 
+            # TODO: Improve selectors
             DATE_SELECTOR = ".flag+ h1 ::text"
             TITLE_SELECTOR = ".title .title ::text"
             LINK_SELECTOR = ".title a::attr(href)"
@@ -61,7 +65,7 @@ class RaArtistSpider(scrapy.Spider):
 
             yield EventItem(
                 id=id,
-                artist=response.meta["artist"],
+                artist=artist,
                 date=date,
                 title=title,
                 link=link,
@@ -83,7 +87,7 @@ class RaArtistSpider(scrapy.Spider):
 
         for size in ["small", "medium", "large"]:
             if not links and not artists:
-                # Note: Currently only LINKED artists included in lineup
+                # Note: Currently only LINKED artists included in lineup, not non-linked
                 links = response.css(f"#event-item .{size} a ::attr(href)").getall()
                 artists = response.css(f"#event-item .{size} a ::text").getall()
 
@@ -114,13 +118,11 @@ class RaArtistSpider(scrapy.Spider):
         # TODO: Consider use of scrapy-rotating-proxies and scrapy-useragents due to recursive calls
         if get_project_settings().get("RECURSIVE"):
             if (links and artists) and (len(links) == len(artists)):
-                for link, artist in zip(links, artists):
-                    yield response.follow(
-                        link, callback=self.parse, meta={"artist": artist}
-                    )
+                for link in links:
+                    yield response.follow(link, callback=self.parse)
 
     def start_requests(self):
         artists = get_artists("artists.txt")
         for artist in artists:
             url = f"https://www.residentadvisor.net/dj/{artist}"
-            yield scrapy.Request(url=url, callback=self.parse, meta={"artist": artist})
+            yield scrapy.Request(url=url, callback=self.parse)
