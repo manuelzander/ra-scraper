@@ -1,13 +1,12 @@
 import smtplib
 import ssl
-from socket import gaierror
-from email.mime.text import MIMEText
-from email.mime.application import MIMEApplication
-from email.mime.multipart import MIMEMultipart
 from datetime import date
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+from socket import gaierror
 
 from config import Config
-from scraper.utils.file_io import get_data
+from scraper.utils.file_io import get_data, get_attachement
 from scraper.utils.logger import get_logger
 
 log = get_logger(__name__)
@@ -16,13 +15,14 @@ config = Config()
 SMTP_SERVER = "smtp.gmail.com"
 SMTP_PORT = 465
 EMAIL = config.ACCOUNT
-EMAIL_SUBJECT = "Notifications from ra-scraper"
+EMAIL_SUBJECT = "Notification from ra-scraper"
 DATE_FORMAT = "%d/%m/%Y"
+FILENAME = "EventItem.jsonl"
 
 
 def main():
     # Get data and filter for London events
-    data = get_data("EventItem.jsonl").sort_values(by=["artist"])
+    data = get_data(FILENAME).sort_values(by=["artist"])
     data = data[data["city"] == "London"]
 
     # Setup email message
@@ -44,6 +44,10 @@ def main():
 
     msg_html = MIMEText(html, "html")
     msg.attach(msg_html)
+
+    attachement = get_attachement(FILENAME)
+    attachement.add_header('Content-Disposition', 'attachment', filename=FILENAME)
+    msg.attach(attachement)
 
     # Send email message
     try:
