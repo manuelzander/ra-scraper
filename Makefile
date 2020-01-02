@@ -1,10 +1,17 @@
-.PHONY: clean
+all: build notify
+	@echo "Done"
+
+.PHONY: all clean process notify
 
 module = scraper
 object = jsonl
 
+clean:
+	@echo "Removing results file"
+	rm -rf $(module)/*.$(object)
+
 build: clean
-	#@echo "Check bot"
+	#@echo "Checking bot"
 	#cd $(module) && scrapy check ra_artist_spider
 	@echo "Producing results file"
 	cd $(module) && scrapy crawl ra_artist_spider
@@ -12,6 +19,10 @@ build: clean
  	#cat $(module)/*.$(object)
 	@echo "Data written to .$(object)-files in $(PWD)/$(module)"
 
-clean:
-	@echo "Removing results file"
-	rm -rf $(module)/*.$(object)
+process: build
+	@echo "Processing data"
+
+notify: process
+	@echo "Sending notifications"
+
+
