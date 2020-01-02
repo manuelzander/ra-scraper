@@ -1,8 +1,9 @@
 name: ra-scraper
 
-on: [push]
-#   schedule:
-#     - cron:  '*/15 * * * *'
+on:
+  push:
+  schedule:
+     - cron:  '0 17 * * *'
 
 jobs:
   build:
@@ -31,5 +32,8 @@ jobs:
 #        pip install pytest
 #        pytest
     - name: Main program
+      env:
+        ACCOUNT: ${{ secrets.ACCOUNT }}
+        SECRET: ${{ secrets.SECRET }}
       run: |
         make
