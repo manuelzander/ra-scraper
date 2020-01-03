@@ -18,12 +18,13 @@ EMAIL = config.ACCOUNT
 EMAIL_SUBJECT = "Notification from ra-scraper"
 DATE_FORMAT = "%d/%m/%Y"
 FILENAME = "EventItem.jsonl"
+CITY_FILTER = "London"
 
 
 def main():
-    # Get data and filter for London events
-    data = get_data(FILENAME).sort_values(by=["artist"])
-    data = data[data["city"] == "London"]
+    # Get data and filter with CITY_FILTER
+    data = get_data(FILENAME).sort_values(by=["date"])
+    data = data[data["city"] == CITY_FILTER]
 
     # Setup email message
     msg = MIMEMultipart()
@@ -46,7 +47,7 @@ def main():
     msg.attach(msg_html)
 
     attachement = get_attachement(FILENAME)
-    attachement.add_header('Content-Disposition', 'attachment', filename=FILENAME)
+    attachement.add_header('Content-Disposition', 'attachment', filename=f"{CITY_FILTER}_{FILENAME}")
     msg.attach(attachement)
 
     # Send email message
@@ -60,7 +61,7 @@ def main():
     except smtplib.SMTPServerDisconnected:
         log.error("Failed to connect to the server. Wrong user/password?")
     except smtplib.SMTPException as e:
-        log.error("SMTP error occurred: " + str(e))
+        log.error("SMTP error occurred: %s", e)
     else:
         log.info("Email sent")
 

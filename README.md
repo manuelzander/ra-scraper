@@ -49,7 +49,7 @@ You can find the spider with the name `ra_artist_spider` in the file `scraper/sc
 To start the spider and save results locally please run:
 
 ```
-make
+make build
 ```
 
 If you want to recursively scrape events of artists mentioned in the lineup section on the event pages scraped for the initially given artists, set the following value in `scraper/scraper/settings.py`:
@@ -62,7 +62,7 @@ This setting can result in a very large number of requests, which can be control
 
 ## Example output
 
-Every run of `make` produces three JSON Line files (data models in `scraper/scraper/items.py`).
+Every run of `make build` produces three JSON Line files (data models in `scraper/scraper/items.py`).
 The first one contains general event information for the given artists, the second and third ones contain the lineup and price information for these events, if available.
 
 For example (one artist only, no recursive scraping):
@@ -107,12 +107,29 @@ FEED_FORMAT = "csv"
 FEED_URI = "results.csv"
 ```
 
+## Email notifications
+
+To send the content in `EventItem.jsonl` via eMail to your Google mail account run:
+
+```
+make notify
+```
+
+You need to set the environment variables `ACCOUNT` (eMail address) and `SECRET` (password) before.
+
+Further settings are available in  `scraper/notifications.py`.
+
+For daily notifications, you can use GitHub Actions and deploy the workflow with the `.github/workflows/app.yml` file.
+
+
+
 ## To-do list
 
 - [x] Event lineup and price collection
 - [x] Email notifications
+- [ ] Visualizations/stats (Dash front-end?)
 - [ ] Database connection
-- [ ] Visualizations and stats (front-end?)
+- [ ] Resident Advisor API
 
 ## Authors
 

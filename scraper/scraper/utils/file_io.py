@@ -24,7 +24,7 @@ def get_artists(filename):
 def get_data(filename):
     try:
         data = pd.read_json(os.path.join(PROJECT_ROOT, filename), lines=True)
-        log.info("File %s read and JSONL data extracted", filename)
+        log.info("File %s read and JSONL data extracted for Email body", filename)
         return data
     except Exception as e:
         log.error("Unexpected ERROR: %s", e)
@@ -40,7 +40,7 @@ def get_attachement(filename):
     try:
         with open(path) as file:
             attachement = MIMEText(file.read(), _subtype=subtype, _charset='utf-8')
-        log.info("File %s read and JSONL data extracted", filename)
+        log.info("File %s read and JSONL data extracted for Email attachement", filename)
         return attachement
     except Exception as e:
         log.error("Unexpected ERROR: %s", e)
