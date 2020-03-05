@@ -1,4 +1,7 @@
 # ra-scraper: Resident Advisor event scraper
+
+![](https://github.com/manuelzander/ra-scraper/workflows/ra-scraper/badge.svg)
+
 Scrape [Resident Advisor](https://residentadvisor.net) (RA) to find out where and when your favourite (techno) artists are playing.
 
 ## Prerequisites
