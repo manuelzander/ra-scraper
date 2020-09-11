@@ -1,6 +1,6 @@
 # ra-scraper: Resident Advisor event scraper
 
-![](https://github.com/manuelzander/ra-scraper/workflows/ra-scraper/badge.svg)
+![status](https://img.shields.io/github/workflow/status/manuelzander/ra-scraper/ra-scraper/master?label=actions&logo=github&style=for-the-badge) ![last-commit](https://img.shields.io/github/last-commit/manuelzander/ra-scraper/master?logo=github&style=for-the-badge) ![issues-pr-raw](https://img.shields.io/github/issues-pr-raw/manuelzander/ra-scraper?label=open%20prs&logo=github&style=for-the-badge) ![release](https://img.shields.io/github/v/release/manuelzander/ra-scraper?&style=for-the-badge) [![license](https://img.shields.io/badge/License-MIT-yellow.svg?style=for-the-badge)](https://opensource.org/licenses/MIT)
 
 Scrape [Resident Advisor](https://residentadvisor.net) (RA) to find out where and when your favourite (techno) artists are playing.
 
