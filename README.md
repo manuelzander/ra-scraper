@@ -6,9 +6,11 @@ Scrape [Resident Advisor](https://residentadvisor.net) (RA) to find out where an
 
 ## Prerequisites
 
+![python](https://img.shields.io/badge/python-3.7-blue?style=for-the-badge&logo=python&logoColor=white)
+
 These instructions will get you a copy of the project up and running on your local machine for development and testing purposes.
 
-The code is run and tested with Python 3.7.5 on macOS 10.14.6.
+The code is run and tested with Python 3.7.5 on macOS 10.14.6 and Ubuntu 18.04.5.
 
 ### Environment
 
@@ -29,12 +31,6 @@ Install the required Python packages with:
 
 ```
 pip3 install -r requirements.txt
-```
-
-You may need to set your PYTHONPATH as:
-
-```
-export PYTHONPATH=.
 ```
 
 ### Artists
@@ -120,11 +116,9 @@ make notify
 
 You need to set the environment variables `ACCOUNT` (eMail address) and `SECRET` (password) before.
 
-Further settings are available in  `scraper/notifications.py`.
+Further settings are available in `scraper/notifications.py`.
 
 For daily notifications, you can use GitHub Actions and deploy the workflow with the `.github/workflows/app.yml` file.
-
-
 
 ## To-do list
 
@@ -136,7 +130,7 @@ For daily notifications, you can use GitHub Actions and deploy the workflow with
 
 ## Authors
 
-* Manuel Zander
+- Manuel Zander
 
 ## License
 
