@@ -5,7 +5,7 @@ black==24.3.0
 cffi==1.13.2
 Click==7.0
 constantly==15.1.0
-cryptography==3.3.2
+cryptography==43.0.1
 cssselect==1.1.0
 hyperlink==19.0.0
 idna==3.7
