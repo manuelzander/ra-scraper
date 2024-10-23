@@ -1,7 +1,7 @@
 appdirs==1.4.3
 attrs==19.3.0
 Automat==0.8.0
-black==19.10b0
+black==24.3.0
 cffi==1.13.2
 Click==7.0
 constantly==15.1.0
