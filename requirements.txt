@@ -16,7 +16,7 @@ pandas==0.25.3
 parsel==1.5.2
 pathspec==0.7.0
 Protego==0.1.16
-pyasn1==0.4.8
+pyasn1==0.6.3
 pyasn1-modules==0.2.7
 pycparser==2.19
 PyDispatcher==2.0.5
